@@ -1,0 +1,52 @@
+Forest Stories Metadata
+==================================================
+
+Story 1:
+File: forest_story_3.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I remember building a shelter in the dense pine woods, the electric silence broken only by my own heartbeat.
+--------------------------------------------------
+
+Story 2:
+File: forest_story_4.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: The memory of explored curiously by the ancient oak tree remains vivid in my mind, the gentle whisper of wind dancing through the pine needles.
+--------------------------------------------------
+
+Story 3:
+File: forest_story_5.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I'll never forget the morning when frost painted everything silver in the snow-capped mountains, filled with childlike wonder and excitement.
+--------------------------------------------------
+
+Story 4:
+File: forest_story_7.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I often think back to that day in the moss-covered canyon when the sudden summer storm passing through happened, reconnected with my primal self.
+--------------------------------------------------
+
+Story 5:
+File: forest_story_8.wav
+Model: tts_models/en/ljspeech/tacotron2-DDC
+Gender: any
+Text: I remember exploring in the sun-dappled meadow, the melodic babbling of the stream composing nature's music.
+--------------------------------------------------
+
+Story 6:
+File: forest_story_9.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I often think back to that day in the misty river valley when the meteor shower in the clear night sky happened, washed clean of all urban stress and worries.
+--------------------------------------------------
+
+Story 7:
+File: forest_story_10.wav
+Model: tts_models/en/ljspeech/tacotron2-DDC
+Gender: any
+Text: While painting landscapes through the remote backcountry, I encountered the sudden summer storm passing through and felt humbled by the ancient trees.
+--------------------------------------------------
+

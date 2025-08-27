@@ -1,0 +1,129 @@
+Forest Stories Metadata
+==================================================
+
+Story 1:
+File: forest_story_1.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: There was this magical time I sat silently near the eagle's nest, smelling the wood smoke from my campfire mixing with pine.
+--------------------------------------------------
+
+Story 2:
+File: forest_story_3.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I'll never forget the sudden summer storm passing through in the deep forest, washed clean of all urban stress and worries.
+--------------------------------------------------
+
+Story 3:
+File: forest_story_4.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: The memory of waited patiently by the fallen giant sequoia remains vivid in my mind, the sweet fragrance of wildflowers carried on the afternoon breeze.
+--------------------------------------------------
+
+Story 4:
+File: forest_story_5.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I'll never forget that breathtaking sunset over the mountains in the national park, humbled by the ancient trees.
+--------------------------------------------------
+
+Story 5:
+File: forest_story_6.wav
+Model: tts_models/en/ljspeech/tacotron2-DDC
+Gender: any
+Text: The memory of observed keenly by the eagle's nest remains vivid in my mind, the earthy scent of damp soil and decaying leaves filling my nostrils.
+--------------------------------------------------
+
+Story 6:
+File: forest_story_7.wav
+Model: tts_models/en/ljspeech/tacotron2-DDC
+Gender: any
+Text: I often think back to that day in the cedar woodland when finding the abandoned bird's nest happened, humbled by the ancient trees.
+--------------------------------------------------
+
+Story 7:
+File: forest_story_8.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I remember birdwatching in the old growth forest, the melodic babbling of the stream composing nature's music.
+--------------------------------------------------
+
+Story 8:
+File: forest_story_9.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: The memory of explored curiously by the wildflower field remains vivid in my mind, the warm golden sunlight filtering through the emerald green leaves.
+--------------------------------------------------
+
+Story 9:
+File: forest_story_10.wav
+Model: tts_models/en/ljspeech/tacotron2-DDC
+Gender: any
+Text: The memory of sketched quickly by the hidden cave remains vivid in my mind, the electric silence broken only by my own heartbeat.
+--------------------------------------------------
+
+Story 10:
+File: forest_story_11.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: There was this magical time I dreamed wistfully near the sunny clearing, feeling the cool evening breeze whisper through the trees.
+--------------------------------------------------
+
+Story 11:
+File: forest_story_13.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I often think back to that day in the dense pine woods when the silent snowfall blanketing the forest happened, washed clean of all urban stress and worries.
+--------------------------------------------------
+
+Story 12:
+File: forest_story_14.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: While tracking animals through the national park, I encountered the morning when frost painted everything silver and felt completely present in the moment.
+--------------------------------------------------
+
+Story 13:
+File: forest_story_15.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: The memory of explored curiously by the rock formation remains vivid in my mind, the damp, rich smell of moss and fungi on fallen logs.
+--------------------------------------------------
+
+Story 14:
+File: forest_story_16.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: I'll never forget the first spring buds appearing in the ancient woodland, awestruck by the intricate web of life.
+--------------------------------------------------
+
+Story 15:
+File: forest_story_17.wav
+Model: tts_models/en/ljspeech/tacotron2-DDC
+Gender: any
+Text: There was this magical time I photographed diligently near the natural spring, smelling the wood smoke from my campfire mixing with pine.
+--------------------------------------------------
+
+Story 16:
+File: forest_story_18.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: There was this magical time I listened carefully near the sunny clearing, hearing the crackle of frost underfoot in the morning stillness.
+--------------------------------------------------
+
+Story 17:
+File: forest_story_19.wav
+Model: tts_models/en/ljspeech/glow-tts
+Gender: any
+Text: While building a shelter through the peaceful valley, I encountered that breathtaking sunset over the mountains and felt overwhelmed by nature's raw beauty.
+--------------------------------------------------
+
+Story 18:
+File: forest_story_20.wav
+Model: tts_models/en/ljspeech/tacotron2-DDC
+Gender: any
+Text: One summer afternoon, while tracking animals, I experienced the silent snowfall blanketing the forest that left me completely present in the moment.
+--------------------------------------------------
+
