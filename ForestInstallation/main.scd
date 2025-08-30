@@ -28,7 +28,6 @@
 ~bootServer = {
 	s.waitForBoot {
 		"Server booted successfully!".postln;
-		"Run ~testAudioIO.() to verify input/output.".postln;
 	};
 };
 
@@ -55,9 +54,9 @@
 	} {
 		projectRootPath = "".resolveRelative;
 	};
-	~backgroundDir = (projectRootPath +/+ "dataTest/bgSounds/").standardizePath;
-	~aiVoicesDir = (projectRootPath +/+ "dataTest/aiVoices/").standardizePath;
-	~humanVoicesDir = (projectRootPath +/+ "dataTest/realVoices/").standardizePath;
+	~backgroundDir = (projectRootPath +/+ "data/bgSounds/").standardizePath;
+	~aiVoicesDir = (projectRootPath +/+ "data/aiVoices/").standardizePath;
+	~humanVoicesDir = (projectRootPath +/+ "data/realVoices/").standardizePath;
 
 	"Sound paths initialized:".postln;
 	("Background: " + ~backgroundDir).postln;
@@ -95,9 +94,9 @@
 		try {
 			buffer = Buffer.read(s, file.fullPath);
 			~backgroundBuffers.add(buffer);
-			("✓ Loaded: " + file.fileName + " -> buffer " + buffer.bufnum).postln;
+			("Loaded: " + file.fileName + " -> buffer " + buffer.bufnum).postln;
 		} { |error|
-			("✗ Failed: " + file.fileName + " - " + error.errorString).postln;
+			("Failed: " + file.fileName + " - " + error.errorString).postln;
 		};
 	};
 
@@ -419,19 +418,22 @@
         var inputLevel, isActualSound, isSilent;
         var levelReceived;
         var runBus = Bus.control(s, 1);
+		var trigBus = Bus.control(s, 1);
 
         runBus.set(0);
+		trigBus.set(0);
 
-        buffer = Buffer.alloc(s, s.sampleRate * 60, 2);
+        buffer = Buffer.alloc(s, s.sampleRate * 600, 2);
         ~recordingBuffers.add(buffer);
 
         recorder = {
             var input = SoundIn.ar([0, 1]);
             var inputLevel = Amplitude.kr(input).max;
             var recState = In.kr(runBus);
+			var trigAtt = In.kr(trigBus);
 
             SendReply.kr(Impulse.kr(10), '/recording_level', [inputLevel]);
-            RecordBuf.ar(input, buffer, recLevel: 1, preLevel: 0, run: recState, loop: 0);
+            RecordBuf.ar(input, buffer, recLevel: 1, preLevel: 0, run: recState, loop: 1, trigger: trigAtt);
             Silent.ar(2);
         }.play;
 
@@ -464,6 +466,7 @@
                             ~currentMode = \silence;
                             ~saveRecording.(buffer, currentStartFrame, ~currentFramePosition);
                             runBus.set(0);
+							trigBus.set(0);
                             ~silenceTimer = 0;
                         };
                     } {
@@ -473,6 +476,11 @@
                     };
                 },
                 \silence, {
+					if (~currentFramePosition >= (buffer.numFrames - (s.sampleRate * 5))) {
+						trigBus.set(1);
+						currentStartFrame = 0;
+						~currentFramePosition = 0;
+					};
                     if (isActualSound) {
                         ~currentMode = \noise;
                         ~silenceTimer = 0;
@@ -617,6 +625,6 @@
 // ============================== TEST FUNCTIONS ==================================
 ~testPlayback.();
 ~testPlayback.(\ai, 0);      // AI voice
-~testPlayback.(\human, 2);   // Human voice
+~testPlayback.(\human, 3);   // Human voice
 ~checkStatus.();
 ~checkAudioProperties.();
