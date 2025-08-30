@@ -55,9 +55,9 @@
 	} {
 		projectRootPath = "".resolveRelative;
 	};
-	~backgroundDir = (projectRootPath +/+ "data/bgSounds/").standardizePath;
-	~aiVoicesDir = (projectRootPath +/+ "data/aiVoices/").standardizePath;
-	~humanVoicesDir = (projectRootPath +/+ "data/realVoices/").standardizePath;
+	~backgroundDir = (projectRootPath +/+ "dataTest/bgSounds/").standardizePath;
+	~aiVoicesDir = (projectRootPath +/+ "dataTest/aiVoices/").standardizePath;
+	~humanVoicesDir = (projectRootPath +/+ "dataTest/realVoices/").standardizePath;
 
 	"Sound paths initialized:".postln;
 	("Background: " + ~backgroundDir).postln;
@@ -418,6 +418,9 @@
         var currentStartFrame = 0;
         var inputLevel, isActualSound, isSilent;
         var levelReceived;
+        var runBus = Bus.control(s, 1);
+
+        runBus.set(0);
 
         buffer = Buffer.alloc(s, s.sampleRate * 60, 2);
         ~recordingBuffers.add(buffer);
@@ -425,9 +428,10 @@
         recorder = {
             var input = SoundIn.ar([0, 1]);
             var inputLevel = Amplitude.kr(input).max;
-            SendReply.kr(Impulse.kr(10), '/recording_level', [inputLevel]);
+            var recState = In.kr(runBus);
 
-            RecordBuf.ar(input, buffer, recLevel: 1, preLevel: 0, run: 1, loop: 0);
+            SendReply.kr(Impulse.kr(10), '/recording_level', [inputLevel]);
+            RecordBuf.ar(input, buffer, recLevel: 1, preLevel: 0, run: recState, loop: 0);
             Silent.ar(2);
         }.play;
 
@@ -444,7 +448,7 @@
             0.1.wait;
             levelReceived.wait;
 
-            ~currentFramePosition = ~currentFramePosition + (s.sampleRate * 0.1);
+			if (~currentMode == \noise) { ~currentFramePosition = ~currentFramePosition + (s.sampleRate * 0.1); };
 
             isActualSound = inputLevel > ~noiseFloor;
             isSilent = inputLevel < ~silenceThreshold;
@@ -456,9 +460,10 @@
 
                         if (~silenceTimer >= ~maxSilenceTime) {
                             "Silence detected - saving recording".postln;
-							~currentMode = \silence;
+
+                            ~currentMode = \silence;
                             ~saveRecording.(buffer, currentStartFrame, ~currentFramePosition);
-                            currentStartFrame = ~currentFramePosition;
+                            runBus.set(0);
                             ~silenceTimer = 0;
                         };
                     } {
@@ -469,20 +474,17 @@
                 },
                 \silence, {
                     if (isActualSound) {
-                        "Sound detected - starting to record".postln;
                         ~currentMode = \noise;
                         ~silenceTimer = 0;
-                        currentStartFrame = ~currentFramePosition;
+                        runBus.set(1);
+						currentStartFrame = ~currentFramePosition;
                     };
                 }
             );
         };
 
-        if (~currentMode == \noise && (~currentFramePosition - currentStartFrame) > (s.sampleRate * 0.5)) {
-            ~saveRecording.(buffer, currentStartFrame, ~currentFramePosition);
-        };
-
         recorder.free;
+        runBus.free;
     }).play;
 
     ^~currentTimestamp;
@@ -498,10 +500,11 @@
         var path = ~humanVoicesDir +/+ filename;
 
         fork {
-            buffer.write(path, "WAV", "int16", startFrame, numFrames, true);
+            buffer.write(path, "WAV", "int16", numFrames, startFrame, true);
             0.5.wait;
 
             soundFile = SoundFile.new;
+
             if (soundFile.openRead(path)) {
                 ("Recording saved: " + filename + " (" + duration.round(0.1) + "s, " +
                  soundFile.numChannels + " channels)").postln;
@@ -510,6 +513,7 @@
                 if (~humanVoicePaths.isNil) { ~humanVoicePaths = List.new; };
                 ~humanVoicePaths.add(path);
                 ~addToQueue.(\human, ~humanVoicePaths.size - 1);
+				buffer.zero;
             } {
                 ("ERROR: Could not save recording: " + path).postln;
             };
@@ -533,6 +537,22 @@
     };
 
     "Recording stopped".postln;
+};
+
+~debugInputLevels = {
+	"Starting input level debug...".postln;
+	~debugMonitor = {
+		var input = SoundIn.ar([0, 1]);
+		var level = Amplitude.kr(input).max;
+		SendReply.kr(Impulse.kr(2), '/debug_level', [level]);
+
+		Silent.ar(2);
+	}.play;
+
+	~debugResponder = OSCFunc({ |msg|
+		var level = msg[3];
+		("DEBUG - Input level: " + level.round(0.00001) + ", Mode: " + ~currentMode).postln;
+	}, '/debug_level');
 };
 
 ~setRecordingThreshold = { |threshold = 0.03, maxSilence = 2.0, noiseFloor = 0.005|
@@ -568,6 +588,7 @@
     ~recordingBuffers.do(_.free);
     ~recordingBuffers.clear;
 };
+
 );
 
 )
@@ -581,13 +602,12 @@
 
 ~setupServer.();
 ~bootServer.();
-//~testAudioIO.();
 ~initSoundPaths.();
 ~loadSoundsDirect.();
 ~cleanupRecording.();
 ~initRecording.();
 ~debugInputLevels.();
-~setRecordingThreshold.(0.03, 2.0, 0.005);
+~setRecordingThreshold.(0.03, 2.0, 0.03);
 ~initQueue.();
 ~populateRandomQueue.();
 ~queueStatus.();
@@ -597,6 +617,6 @@
 // ============================== TEST FUNCTIONS ==================================
 ~testPlayback.();
 ~testPlayback.(\ai, 0);      // AI voice
-~testPlayback.(\human, 5);   // Human voice
+~testPlayback.(\human, 2);   // Human voice
 ~checkStatus.();
 ~checkAudioProperties.();
