@@ -520,7 +520,6 @@
 
                 if (~humanVoicePaths.isNil) { ~humanVoicePaths = List.new; };
                 ~humanVoicePaths.add(path);
-                ~addToQueue.(\human, ~humanVoicePaths.size - 1);
 				buffer.zero;
             } {
                 ("ERROR: Could not save recording: " + path).postln;
