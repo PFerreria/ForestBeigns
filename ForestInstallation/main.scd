@@ -599,6 +599,36 @@
 
 );
 
+~startEverything = {
+	"Starting Forest Beings...".postln;
+
+	// Setup and boot server
+	~setupServer.();
+	~bootServer.();
+
+	// Wait for server to boot using a Routine
+	fork {
+		while { s.serverRunning.not } { 0.1.wait };
+		"Server ready!".postln;
+
+		// Load everything else
+		~initSoundPaths.();
+		~loadSoundsDirect.();
+		1.wait;
+
+		~initRecording.();
+		~setRecordingThreshold.(0.03, 2.0, 0.03);
+		~initQueue.();
+		~populateRandomQueue.();
+
+		// Start the systems
+		~startQueue.(0, 0.15);
+		~startVoiceActivatedRecording.();
+
+		"=== READY ===".postln;
+	};
+};
+
 )
 
 
@@ -607,7 +637,9 @@
 
 // ==================== USAGE ====================
 
+~startEverything.();
 
+/*
 ~setupServer.();
 ~bootServer.();
 ~initSoundPaths.();
@@ -628,3 +660,4 @@
 ~testPlayback.(\human, 3);   // Human voice
 ~checkStatus.();
 ~checkAudioProperties.();
+*/
