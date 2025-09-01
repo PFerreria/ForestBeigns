@@ -408,7 +408,6 @@ def main():
     
     else:
         print(f"Error: Unknown command '{command}'")
-        show_help()
 
 if __name__ == "__main__":
     main()
